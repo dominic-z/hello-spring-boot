@@ -8,7 +8,6 @@
         <setting name="useColumnLabel" value="true"/>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <setting name="logImpl" value="LOG4j2"/>
-        <setting name="" value=""/>
     </settings>
 
 
