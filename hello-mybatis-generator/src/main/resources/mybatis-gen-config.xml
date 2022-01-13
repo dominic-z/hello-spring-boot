@@ -1,0 +1,43 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="dsql" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+<!--        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>-->
+<!--        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>-->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.MysqlLimitPlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.CloseSelectivePlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.DeletedFieldPlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.CustomizedSqlPlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.CommentPlugin"/>
+
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/yiibaidb" userId="root" password="admin"/>
+
+        <javaModelGenerator targetPackage="com.example.springboot.hellospringboot.domain.pojo.mbg"
+                            targetProject="hello-mybatis-generator/target/">
+            <property name="exampleTargetPackage"
+                      value="com.example.springboot.hellospringboot.domain.pojo.mbg.example"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="resources.mappers.mbg"
+                         targetProject="hello-mybatis-generator/target/"/>
+
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.example.springboot.hellospringboot.dao.mybatis.mbg"
+                             targetProject="hello-mybatis-generator/target/"/>
+
+        <table tableName="items">
+            <property name="useActualColumnNames" value="false"/>
+            <domainObjectRenamingRule searchString="s$" replaceString=""/>
+        </table>
+        <table tableName="customers" mapperName="CustomersMapper">
+            <property name="useActualColumnNames" value="true"/>
+            <domainObjectRenamingRule searchString="s$" replaceString=""/>
+        </table>
+    </context>
+</generatorConfiguration>
