@@ -16,7 +16,7 @@
 
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/yiibaidb" userId="root" password="admin"/>
+                        connectionURL="jdbc:mysql://localhost:3306/yiibaidb" userId="root" password="root"/>
 
         <javaModelGenerator targetPackage="com.example.springboot.hellospringboot.domain.pojo.mbg"
                             targetProject="hello-mybatis-generator/target/">
