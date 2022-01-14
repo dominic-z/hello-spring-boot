@@ -1,0 +1,105 @@
+package com.example.springboot.hellospringboot.service;
+
+import com.example.springboot.hellospringboot.dao.mbg.CustomersMapper;
+import com.example.springboot.hellospringboot.dao.customized.CustomersDao;
+import com.example.springboot.hellospringboot.domain.pojo.Customers;
+import com.example.springboot.hellospringboot.domain.query.example.CustomersExample;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+/**
+* @author codegen
+* @date 2022/01/14
+*/
+@Service
+public class CustomersService{
+
+    @Autowired
+    private CustomersDao customersDao;
+
+    @Autowired
+    private CustomersMapper customersMapper;
+
+    // 基于CustomersMapper
+
+    @Transactional(rollbackFor = Exception.class)
+    public int create(Customers record) {
+        if (record == null) {
+            return 0;
+        }
+        return customersMapper.insert(record);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int createBatch(Collection<Customers> records) {
+        if (records == null || records.isEmpty()) {
+            return 0;
+        }
+        return customersMapper.insertBatch(records);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteByPrimaryKey(Integer key) {
+        if (key == null) {
+            return 0;
+        }
+        return customersMapper.deleteByPrimaryKey(key);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int updateByPrimaryKey(Customers record) {
+        if (record == null) {
+            return 0;
+        }
+        return customersMapper.updateByPrimaryKey(record);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int updateByExampleSelective(Customers record, CustomersExample example) {
+        if (record == null || example == null) {
+            return 0;
+        }
+        return customersMapper.updateByExampleSelective(record, example);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int updateByExample(Customers record, CustomersExample example) {
+        if (record == null || example == null) {
+            return 0;
+        }
+        return customersMapper.updateByExample(record, example);
+    }
+
+
+    public long countByExample(CustomersExample example) {
+        if (example == null) {
+            return 0L;
+        }
+
+        return customersMapper.countByExample(example);
+    }
+
+    public List<Customers> selectByExample(CustomersExample example) {
+        if (example == null) {
+            return new ArrayList<>();
+        }
+        return customersMapper.selectByExample(example);
+    }
+
+    public Customers selectByPrimaryKey(Integer key) {
+        if (key == null) {
+            return null;
+        }
+        return customersMapper.selectByPrimaryKey(key);
+    }
+
+    // 基于customersDao
+
+}

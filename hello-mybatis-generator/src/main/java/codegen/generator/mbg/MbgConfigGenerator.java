@@ -45,6 +45,7 @@ public class MbgConfigGenerator {
         freemarkerData.put("JDBC_PASSWORD", CodeGeneratorConfig.JDBC_PASSWORD);
         freemarkerData.put("JAVA_PATH", CodeGeneratorConfig.JAVA_PATH);
         freemarkerData.put("RESOURCES_PATH", CodeGeneratorConfig.RESOURCES_PATH);
+        freemarkerData.put("SQL_MAPPER_XML_ROOT_PATH", CodeGeneratorConfig.SQL_MAPPER_XML_ROOT_PATH);
 
         Path javaPath = Paths.get(CodeGeneratorConfig.JAVA_PATH);
         if (!Files.exists(javaPath)) {

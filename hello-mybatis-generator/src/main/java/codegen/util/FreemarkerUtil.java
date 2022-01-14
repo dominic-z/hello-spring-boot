@@ -32,15 +32,28 @@ public class FreemarkerUtil {
         data.put("date", CodeGeneratorConfig.DATE);
         data.put("author", userName);
         data.put("tableName", tableInfo.getTableName());
-        data.put("modelName", tableInfo.getDomainUpperCamelName());
-        data.put("modelNameUpperCamel", tableInfo.getDomainUpperCamelName());
-        data.put("modelNameLowerCamel", tableInfo.getDomainLowerCamelName());
+        data.put("serviceUpperCamelName", tableInfo.getServiceUpperCamelName());
+        data.put("serviceLowerCamelName", tableInfo.getServiceLowerCamelName());
+
+        data.put("daoUpperCamelName", tableInfo.getDaoUpperCamelName());
+        data.put("daoLowerCamelName", tableInfo.getDaoLowerCamelName());
+
+        data.put("mapperUpperCamelName", tableInfo.getMapperUpperCamelName());
+        data.put("mapperLowerCamelName", tableInfo.getMapperLowerCamelName());
+
+        data.put("domainLowerCamelName", tableInfo.getDomainLowerCamelName());
+        data.put("domainUpperCamelName", tableInfo.getDomainUpperCamelName());
+
+        data.put("exampleUpperCamelName", tableInfo.getMbgExampleUpperCamelName());
+        data.put("exampleLowerCamelName", tableInfo.getMbgExampleLowerCamelName());
+
         data.put("basePackage", CodeGeneratorConfig.BASE_PACKAGE);
-        data.put("daoPackage", CodeGeneratorConfig.DAO_PACKAGE);
-        data.put("mbgDaoPackage", CodeGeneratorConfig.MBG_DAO_PACKAGE);
+        data.put("customizedDaoPackage", CodeGeneratorConfig.CUSTOMIZED_DAO_PACKAGE);
+        data.put("mbgMapperPackage", CodeGeneratorConfig.MBG_MAPPER_PACKAGE);
         data.put("servicePackage", CodeGeneratorConfig.SERVICE_PACKAGE);
+
         data.put("modelPackage", CodeGeneratorConfig.MODEL_PACKAGE);
-        data.put("mapperPackage", CodeGeneratorConfig.MAPPER_PACKAGE);
+        data.put("mgbExamplePackage", CodeGeneratorConfig.MBG_EXAMPLE_PACKAGE);
         return data;
     }
 

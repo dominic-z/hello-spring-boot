@@ -25,11 +25,19 @@ public class TableInfo {
 
     private String tableName;
 
+    private String mbgExampleUpperCamelName;
+
+    private String mbgExampleLowerCamelName;
+
     private String domainUpperCamelName;
 
     private String domainLowerCamelName;
 
     private String daoUpperCamelName;
+
+    private String mapperUpperCamelName;
+
+    private String mapperLowerCamelName;
 
     private String daoLowerCamelName;
 
@@ -64,13 +72,16 @@ public class TableInfo {
         this.domainUpperCamelName = StringUtil.tableNameConvertUpperCamel(tableName);
         this.domainLowerCamelName = StringUtil.tableNameConvertLowerCamel(tableName);
 
+        this.mbgExampleUpperCamelName = domainUpperCamelName + "Example";
+        this.mbgExampleLowerCamelName = domainLowerCamelName + "Example";
+
+        this.mapperUpperCamelName = domainUpperCamelName + "Mapper";
+        this.mapperLowerCamelName = domainLowerCamelName + "Mapper";
+
         this.daoUpperCamelName = domainUpperCamelName + "Dao";
         this.daoLowerCamelName = domainLowerCamelName + "Dao";
 
-        this.queryUpperCamelName = domainUpperCamelName + "Query";
-        this.queryLowerCamelName = domainLowerCamelName + "Query";
-
-        this.serviceUpperCamelName = domainLowerCamelName + "Service";
+        this.serviceUpperCamelName = domainUpperCamelName + "Service";
         this.serviceLowerCamelName = domainLowerCamelName + "Service";
 
         this.insertColumnsList = new ArrayList<>();

@@ -5,14 +5,15 @@
     <context id="dsql" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
-        <!--        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>-->
-        <!--        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
         <plugin type="codegen.generator.mbg.plugin.MysqlLimitPlugin"/>
-        <plugin type="codegen.generator.mbg.plugin.CloseSelectivePlugin"/>
-        <plugin type="codegen.generator.mbg.plugin.DeletedFieldPlugin"/>
-        <plugin type="codegen.generator.mbg.plugin.CustomizedSqlPlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.bussinesssql.CloseSelectivePlugin"/>
         <plugin type="codegen.generator.mbg.plugin.CommentPlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.bussinesssql.GenerateAnotherSqlMapForCustomPlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.bussinesssql.InsertBatchSqlPlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.bussinesssql.MbgRunningDataCollectorPlugin"/>
         <!-- MySQL分页插件 -->
 
         <commentGenerator>
@@ -22,28 +23,22 @@
         <jdbcConnection driverClass="${JDBC_DRIVER}"
                         connectionURL="${JDBC_URL}" userId="${JDBC_USERNAME}" password="${JDBC_PASSWORD}"/>
 
-        <javaModelGenerator targetPackage="${modelPackage}.pojo"
+        <javaModelGenerator targetPackage="${modelPackage}"
                             targetProject="${JAVA_PATH}">
             <property name="exampleTargetPackage"
-                      value="${modelPackage}.query.example"/>
+                      value="${mgbExamplePackage}"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="sqlmap.mbg"
-                         targetProject="${RESOURCES_PATH}"/>
+        <sqlMapGenerator targetPackage="mbg"
+                         targetProject="${SQL_MAPPER_XML_ROOT_PATH}"/>
 
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="${mbgDaoPackage}"
+                             targetPackage="${mbgMapperPackage}"
                              targetProject="${JAVA_PATH}"/>
 
-        <table tableName="${tableName}" enableDeleteByExample="false" enableDeleteByPrimaryKey="false"
-               enableUpdateByExample="false" domainObjectName="${modelNameUpperCamel}">
-            <property name="rootClass" value="codegen.domain.BaseEntity"/>
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="id" javaType="long" jdbcType="BIGINT"/>
-            <columnOverride column="revision" javaType="int" jdbcType="INTEGER"/>
-            <ignoreColumn column="deleted"/>
+        <table tableName="${tableName}" domainObjectName="${domainUpperCamelName}"
+               mapperName="${mapperUpperCamelName}">
         </table>
-
 
     </context>
 </generatorConfiguration>

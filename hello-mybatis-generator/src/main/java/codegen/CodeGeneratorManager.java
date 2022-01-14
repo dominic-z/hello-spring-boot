@@ -1,9 +1,7 @@
 package codegen;
 
 import codegen.config.CodeGeneratorConfig;
-import codegen.generator.impl.DaoGenerator;
-import codegen.generator.impl.DomainGenerator;
-import codegen.generator.impl.MapperGenerator;
+import codegen.generator.impl.CustomizedDaoGenerator;
 import codegen.generator.impl.ServiceGenerator;
 import codegen.generator.mbg.MbgCodeGenerator;
 import codegen.model.ColumnInfo;
@@ -12,8 +10,6 @@ import codegen.util.DbInfoUtil;
 import codegen.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,10 +66,8 @@ public class CodeGeneratorManager {
     private void genCodeByTableName(String tableName) throws Exception {
         final TableInfo tableInfo = getTableInfo(tableName);
 
-        final boolean mgbSuccess = new MbgCodeGenerator().genCode(tableInfo);
-        new DomainGenerator(!mgbSuccess).genCode(tableInfo);
-        new MapperGenerator().genCode(tableInfo);
-        new DaoGenerator().genCode(tableInfo);
+        new MbgCodeGenerator().genCode(tableInfo);
+        new CustomizedDaoGenerator().genCode(tableInfo);
         new ServiceGenerator().genCode(tableInfo);
 
     }
@@ -135,14 +129,15 @@ public class CodeGeneratorManager {
 
         String basePackage = prop.getProperty("base.package");
         CodeGeneratorConfig.BASE_PACKAGE = basePackage;
-        CodeGeneratorConfig.MODEL_PACKAGE = basePackage + ".domain";
-        CodeGeneratorConfig.DAO_PACKAGE = basePackage + ".dao";
-        CodeGeneratorConfig.MBG_DAO_PACKAGE = CodeGeneratorConfig.DAO_PACKAGE + ".mbg";
+        CodeGeneratorConfig.MODEL_PACKAGE = basePackage + ".domain.pojo";
+        CodeGeneratorConfig.MBG_EXAMPLE_PACKAGE = basePackage + ".domain.query.example";
+        CodeGeneratorConfig.MBG_MAPPER_PACKAGE = basePackage + ".dao.mbg";
+        CodeGeneratorConfig.CUSTOMIZED_DAO_PACKAGE = basePackage + ".dao.customized";
         CodeGeneratorConfig.SERVICE_PACKAGE = basePackage + ".service";
 
-        CodeGeneratorConfig.PACKAGE_PATH_MODEL = StringUtil.packageConvertPath(CodeGeneratorConfig.MODEL_PACKAGE);
-        CodeGeneratorConfig.PACKAGE_PATH_DAO = StringUtil.packageConvertPath(CodeGeneratorConfig.DAO_PACKAGE);
-        CodeGeneratorConfig.PACKAGE_PATH_SERVICE = StringUtil.packageConvertPath(CodeGeneratorConfig.SERVICE_PACKAGE);
+        CodeGeneratorConfig.CUSTOMIZED_DAO_PACKAGE_PATH =
+                StringUtil.packageConvertPath(CodeGeneratorConfig.CUSTOMIZED_DAO_PACKAGE);
+        CodeGeneratorConfig.SERVICE_PACKAGE_PATH = StringUtil.packageConvertPath(CodeGeneratorConfig.SERVICE_PACKAGE);
 
         CodeGeneratorConfig.DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
         CodeGeneratorConfig.INITIALIZED = true;

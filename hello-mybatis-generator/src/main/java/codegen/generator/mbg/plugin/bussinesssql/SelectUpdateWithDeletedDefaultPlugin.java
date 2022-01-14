@@ -1,4 +1,4 @@
-package codegen.generator.mbg.plugin;
+package codegen.generator.mbg.plugin.bussinesssql;
 
 /**
  * @author dominiczhu
@@ -18,9 +18,9 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import java.util.List;
 
 /**
- * 使用remove来标识删除，再各个update select语句之中增加deleted字段
+ * 使用remove来标识删除，再各个update select语句之中增加deleted字段 在dmp工作时用的
  */
-public class DeletedFieldPlugin extends PluginAdapter {
+public class SelectUpdateWithDeletedDefaultPlugin extends PluginAdapter {
 
     private static final String AND_DELETED_EQ_0 = "and deleted = 0";
 

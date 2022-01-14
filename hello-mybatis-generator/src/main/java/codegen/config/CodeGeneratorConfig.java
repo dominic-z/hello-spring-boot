@@ -21,27 +21,26 @@ public class CodeGeneratorConfig {
     public static String JAVA_PATH = "hello-mybatis-generator/target/out/src/main/java";
     // 资源文件路径
     public static String RESOURCES_PATH = "hello-mybatis-generator/target/out/src/main/resources";
+    public static String SQL_MAPPER_XML_ROOT_PATH = RESOURCES_PATH + "/mappers";
 
     // 包的父目录
     public static String BASE_PACKAGE;
     // 项目 Model 所在包
     public static String MODEL_PACKAGE;
-    // 项目 Mapper 所在包
-    public static String MAPPER_PACKAGE;
+    // mbg生成的example路径
+    public static String MBG_EXAMPLE_PACKAGE;
     // 项目 Service 所在包
-    public static String DAO_PACKAGE;
-    // 项目 Service 所在包
-    public static String MBG_DAO_PACKAGE;
+    public static String MBG_MAPPER_PACKAGE;
+
+    public static String CUSTOMIZED_DAO_PACKAGE;
     // 项目 Service 所在包
     public static String SERVICE_PACKAGE;
 
 
     // 生成的 Dao 存放路径
-    public static String PACKAGE_PATH_MODEL;
-    // 生成的 Dao 存放路径
-    public static String PACKAGE_PATH_DAO;
+    public static String CUSTOMIZED_DAO_PACKAGE_PATH;
     // 生成的 Service 存放路径
-    public static String PACKAGE_PATH_SERVICE;
+    public static String SERVICE_PACKAGE_PATH;
 
     // 模板注释中 @author
     public static String AUTHOR = "";

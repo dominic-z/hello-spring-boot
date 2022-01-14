@@ -1,16 +1,15 @@
 package com.example.springboot.hellospringboot;
 
+import com.example.springboot.hellospringboot.dao.customized.CustomersDao;
 import com.example.springboot.hellospringboot.dao.jdbc.template.ItemJdbcDao;
-import com.example.springboot.hellospringboot.dao.mybatis.CustomerDao;
-import com.example.springboot.hellospringboot.dao.mybatis.mbg.CustomerMapper;
-import com.example.springboot.hellospringboot.dao.mybatis.mbg.ItemMapper;
-import com.example.springboot.hellospringboot.domain.pojo.mbg.Customer;
-import com.example.springboot.hellospringboot.domain.pojo.mbg.Item;
-import com.example.springboot.hellospringboot.domain.pojo.mbg.example.CustomerExample;
-import com.example.springboot.hellospringboot.domain.pojo.mbg.example.ItemExample;
-import com.example.springboot.hellospringboot.service.DataAccessTestService;
+import com.example.springboot.hellospringboot.dao.mbg.CustomersMapper;
+import com.example.springboot.hellospringboot.domain.pojo.Customers;
+import com.example.springboot.hellospringboot.domain.pojo.Orderdetails;
+import com.example.springboot.hellospringboot.domain.pojo.OrderdetailsKey;
+import com.example.springboot.hellospringboot.domain.query.example.CustomersExample;
 import com.example.springboot.hellospringboot.service.HelloService;
 import com.example.springboot.hellospringboot.service.MemoryCacheService;
+import com.example.springboot.hellospringboot.service.OrderdetailsService;
 import com.example.springboot.hellospringboot.service.RedisCacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
@@ -32,8 +31,6 @@ class HelloSpringBootApplicationTests {
     @Autowired
     private HelloService helloService;
 
-    @Autowired
-    private DataAccessTestService dataAccessTestService;
 
     @Autowired
     private ItemJdbcDao itemJdbcDao;
@@ -43,15 +40,6 @@ class HelloSpringBootApplicationTests {
         helloService.sayHello();
     }
 
-    @Test
-    void dataAccessTest() {
-//        List<Item> items = itemJdbcDao.getItems();
-//        items.stream().limit(20).forEach(item -> log.info(item.toString()));
-
-        List<Item> items = dataAccessTestService.selectItems();
-        items.stream().limit(20).forEach(item -> log.info(item.toString()));
-
-    }
 
     @Test
     void log4jTest() {
@@ -59,50 +47,25 @@ class HelloSpringBootApplicationTests {
     }
 
     @Autowired
-    private ItemMapper itemsMapper;
-
+    private CustomersMapper customersMapper;
     @Autowired
-    private CustomerMapper customersMapper;
-
-    @Test
-    void mbgTest() {
-        ItemExample itemsExample = new ItemExample();
-        ItemExample.Criteria itemCriteria = itemsExample.createCriteria();
-        itemCriteria.andIdEqualTo(2).andIdBetween(0, 2);
-        System.out.println(itemsMapper);
-        System.out.println(itemsMapper.selectByExample(itemsExample));
-
-        CustomerExample customersExample = new CustomerExample();
-        customersExample.setDistinct(true);
-        customersExample.setOrderByClause("customerNumber");
-        customersExample.createCriteria().andCustomerNumberIsNotNull();
-        System.out.println(customersMapper);
-        System.out.println(customersMapper.selectByExample(customersExample));
-    }
-
-    @Autowired
-    private CustomerDao customersDao;
+    private CustomersDao customersDao;
 
     @Test
     public void mybatisDaoTest() {
-        List<Customer> customers = customersDao.selectCustomers();
-        customers.stream().limit(20).forEach(customer -> log.info(customer.toString()));
 
-        customersDao.selectCustomerWithWhere(103)
-                .forEach(customer -> log.info(customer.toString()));
     }
 
     @Test
     public void mybatisPageHelperTest() {
         // 测试mybytisPageHelper池做缓存
-        List<Customer> customers = customersDao.selectCustomersRowBounds(1, 10);
+        List<Customers> customers = customersDao.selectCustomersRowBounds(1, 10);
         customers.stream().limit(20).forEach(customer -> log.info(customer.toString()));
 
         // pageHelper甚至也可以直接影响mapper类，mybatis当遇到mapper方法传入了rowBounds，就会进行分页
         // 如果没用pageHelper 默认分页方式是查询全部然后在内存里分页；如果使用了pageHelper，则会在sql层面上进行分页
-        customers = customersMapper.selectByExampleWithRowbounds(new CustomerExample(), new RowBounds(1, 10));
+        customers = customersMapper.selectByExampleWithRowbounds(new CustomersExample(), new RowBounds(1, 10));
         customers.stream().limit(20).forEach(customer -> log.info(customer.toString()));
-
 
     }
 
@@ -130,7 +93,7 @@ class HelloSpringBootApplicationTests {
     public void testMemoryCacheableAnno() {
         // 由于配置了RedisCacheConfig，因此此处会变成redis缓存，如果想测内存缓存，请将RedisCacheConfig类删掉
         log.info("read from db");
-        List<Customer> customers = memoryCacheService.findCustomers();
+        List<Customers> customers = memoryCacheService.findCustomers();
         log.info("read from cache");
         customers = memoryCacheService.findCustomers();
 //        customers.forEach(c -> log.info(c.toString()));
@@ -154,10 +117,10 @@ class HelloSpringBootApplicationTests {
 
 
     @Autowired
-    RedisTemplate<String,String> redisTemplate;
+    RedisTemplate<String, String> redisTemplate;
 
     @Test
-    public void testRedisTemplate(){
+    public void testRedisTemplate() {
         final ValueOperations<String, String> kvOperation = redisTemplate.opsForValue();
         log.info(kvOperation.get("key"));
     }
@@ -167,26 +130,26 @@ class HelloSpringBootApplicationTests {
     RedisCacheService redisCacheService;
 
     @Test
-    public void testRedisCacheAnno(){
+    public void testRedisCacheAnno() {
         // 测试redis做缓存
-        List<Customer> customers = redisCacheService.findCustomers();
+        List<Customers> customers = redisCacheService.findCustomers();
         log.info("read from cache");
 
-        customers=redisCacheService.findCustomers();
+        customers = redisCacheService.findCustomers();
 
 
-        List<Customer> customers2 = redisCacheService.findCustomers2();
+        List<Customers> customers2 = redisCacheService.findCustomers2();
         log.info("read from cache");
 
-        customers2=redisCacheService.findCustomers2();
+        customers2 = redisCacheService.findCustomers2();
 
     }
 
 
     @Test
-    public void testSelectAndCacheCustomer(){
+    public void testSelectAndCacheCustomer() {
         // 测试读取并手动缓存
-        final Customer customer = redisCacheService.selectAndCacheCustomer(103);
+        final Customers customer = redisCacheService.selectAndCacheCustomer(103);
 
         log.info(customer.toString());
 
@@ -194,5 +157,19 @@ class HelloSpringBootApplicationTests {
 //
 //        log.info(cacheCustomer.toString());
 
+    }
+
+
+    @Autowired
+    private OrderdetailsService orderdetailsService;
+
+    @Test
+    public void testMgbFreemarkerV2() {
+
+        final OrderdetailsKey key = new OrderdetailsKey();
+        key.setOrdernumber(10100);
+        key.setProductcode("S18_2248");
+        final Orderdetails orderdetails = orderdetailsService.selectByPrimaryKey(key);
+        log.info("orderdetails: selectByPrimaryKey {}", orderdetails);
     }
 }

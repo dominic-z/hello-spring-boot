@@ -1,11 +1,10 @@
 package com.example.springboot.hellospringboot.service;
 
-import com.example.springboot.hellospringboot.dao.mybatis.CustomerDao;
-import com.example.springboot.hellospringboot.domain.pojo.mbg.Customer;
+import com.example.springboot.hellospringboot.dao.customized.CustomersDao;
+import com.example.springboot.hellospringboot.domain.pojo.Customers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -29,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisCacheService {
 
     @Autowired
-    private CustomerDao customersDao;
+    private CustomersDao customersDao;
 
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -37,9 +36,9 @@ public class RedisCacheService {
 
     @Cacheable(cacheNames = "custormers_", cacheManager = "halfMinuteCacheManager") // spring redis注解 在缓存就读缓存
     // 不在缓存就读db然后插入缓存
-    public List<Customer> findCustomers() {
+    public List<Customers> findCustomers() {
 
-        List<Customer> customers = customersDao.selectCustomersRowBounds(1, 1);
+        List<Customers> customers = customersDao.selectCustomersRowBounds(1, 1);
         return customers;
 
     }
@@ -47,9 +46,9 @@ public class RedisCacheService {
 
     @Cacheable(cacheNames = "custormers_", cacheManager = "halfMinuteCacheManager") // spring redis注解 在缓存就读缓存
     // 不在缓存就读db然后插入缓存
-    public List<Customer> findCustomers2() {
+    public List<Customers> findCustomers2() {
 
-        List<Customer> customers = customersDao.selectCustomersRowBounds(1, 1);
+        List<Customers> customers = customersDao.selectCustomersRowBounds(1, 1);
         return customers;
 
     }
@@ -61,27 +60,27 @@ public class RedisCacheService {
 
 
     @Bean
-    public RedisTemplate<String, Customer> coffeeRedisTemplate(@Autowired RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Customer> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Customers> coffeeRedisTemplate(@Autowired RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Customers> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         return redisTemplate;
     }
 
     @Autowired
-    private RedisTemplate<String, Customer> coffeeRedisTemplate;
+    private RedisTemplate<String, Customers> coffeeRedisTemplate;
 
     private final static String CACHE_KEY = "redisCache";
 
-    public Customer selectAndCacheCustomer(int customerNumber) {
+    public Customers selectAndCacheCustomer(int customerNumber) {
 
-        final HashOperations<String, String, Customer> opsForHash = coffeeRedisTemplate.opsForHash();
+        final HashOperations<String, String, Customers> opsForHash = coffeeRedisTemplate.opsForHash();
 
-        final ValueOperations<String, Customer> opsForValue = coffeeRedisTemplate.opsForValue();
+        final ValueOperations<String, Customers> opsForValue = coffeeRedisTemplate.opsForValue();
 
         if (opsForHash.hasKey(CACHE_KEY, String.valueOf(customerNumber))) {
             return opsForHash.get(CACHE_KEY, String.valueOf(customerNumber));
         }
-        Customer customer = customersDao.selectByCustomerNumber(customerNumber);
+        Customers customer = customersDao.selectByCustomerNumber(customerNumber);
         if (customer != null) {
             opsForHash.put(CACHE_KEY, String.valueOf(customerNumber), customer);
             coffeeRedisTemplate.expire(CACHE_KEY, 20, TimeUnit.SECONDS);

@@ -2,7 +2,7 @@ package com.example.springboot.hellospringboot.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import com.example.springboot.hellospringboot.config.properties.MysqlProperties;
+import com.example.springboot.hellospringboot.config.properties.MysqlYiibaiProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,19 +18,19 @@ import javax.sql.DataSource;
  * @date 2021/9/14 下午8:12
  */
 @Configuration
-@EnableConfigurationProperties(MysqlProperties.class)
+@EnableConfigurationProperties(MysqlYiibaiProperties.class)
 public class MysqlDatasourceConfig {
 
     @Autowired
-    private MysqlProperties mysqlProperties;
+    private MysqlYiibaiProperties mysqlProperties;
 
     @ConfigurationProperties(prefix = "spring.jdbc.datasource.druid.yiibai")
-    @Bean("datasource")
+    @Bean("yiibaiDatasource")
     public DataSource yiibaiDatasource(){
         return DruidDataSourceBuilder.create().build();
     }
 
-    @Bean("datasource2")
+    @Bean("yiibaiDatasource2")
     public DataSource yiibaiDatasourceByProperties(){
         DruidDataSource druidDataSource = DruidDataSourceBuilder.create().build();
         druidDataSource.setDriverClassName(mysqlProperties.getDriverClassName());

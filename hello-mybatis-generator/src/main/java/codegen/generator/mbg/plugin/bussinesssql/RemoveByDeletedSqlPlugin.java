@@ -1,9 +1,8 @@
-package codegen.generator.mbg.plugin;
+package codegen.generator.mbg.plugin.bussinesssql;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
-import org.mybatis.generator.api.dom.DefaultXmlFormatter;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
@@ -20,12 +19,14 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * 新增通过deleted字段来标识删除的update sql  在dmp工作时用的
+ *
  * @author dominiczhu
  * @version 1.0
- * @title CustomizedSqlPlugin
- * @date 2022/1/11 5:32 下午
+ * @title RemoveByDeletedSqlPlugin
+ * @date 2022/1/14 9:38 上午
  */
-public class CustomizedSqlPlugin extends PluginAdapter {
+public class RemoveByDeletedSqlPlugin extends PluginAdapter {
 
     @Override
     public void initialized(IntrospectedTable introspectedTable) {
@@ -43,8 +44,6 @@ public class CustomizedSqlPlugin extends PluginAdapter {
 
         sqlMapRemoveByPrimaryKeys(document, introspectedTable);
 
-        sqlMapInsertBatch(document, introspectedTable);
-
         return true;
     }
 
@@ -56,25 +55,9 @@ public class CustomizedSqlPlugin extends PluginAdapter {
 
         clientRemoveByPrimaryKeys(interfaze, introspectedTable);
 
-
-        clientInsertBatch(interfaze, introspectedTable);
-
         return true;
     }
 
-    private void clientInsertBatch(Interface interfaze, IntrospectedTable introspectedTable) {
-        Method insertBatch = new Method("insertBatch");
-        context.getCommentGenerator().addGeneralMethodComment(insertBatch, introspectedTable);
-        insertBatch.setAbstract(true);
-        insertBatch.setReturnType(PrimitiveTypeWrapper.getIntInstance());
-        final FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
-                String.format("Collection<%s>", introspectedTable.getFullyQualifiedTable().getDomainObjectName()));
-        interfaze.addImportedType(new FullyQualifiedJavaType("java.util.Collection"));
-        Parameter insertBatchParameter = new Parameter(parameterType, "records");
-
-        insertBatch.addParameter(insertBatchParameter);
-        interfaze.addMethod(insertBatch);
-    }
 
     private void clientRemoveByPrimaryKey(Interface interfaze, IntrospectedTable introspectedTable) {
         // removeByPrimaryKey
@@ -100,49 +83,6 @@ public class CustomizedSqlPlugin extends PluginAdapter {
         interfaze.addMethod(removeByPrimaryKeyMethods);
     }
 
-    private void sqlMapInsertBatch(Document document, IntrospectedTable introspectedTable) {
-        // insertBatch
-
-        final XmlElement rootElement = document.getRootElement();
-        final XmlElement insertBatch = new XmlElement("insert");
-        context.getCommentGenerator().addComment(insertBatch);
-
-        insertBatch.addAttribute(new Attribute("id", "insertBatch"));
-        insertBatch.addAttribute(new Attribute("parameterType", "java.util.Collection"));
-        insertBatch.addElement(new TextElement("insert into " + introspectedTable.getFullyQualifiedTableNameAtRuntime()));
-
-        final Set<String> primaryKeyNames = new HashSet<>();
-        if (introspectedTable.getPrimaryKeyColumns() != null) {
-            introspectedTable.getPrimaryKeyColumns().forEach(c -> primaryKeyNames.add(c.getActualColumnName()));
-        }
-
-        final List<String> columnNames = new ArrayList<>();
-        final List<String> valueFields = new ArrayList<>();
-        for (IntrospectedColumn column : introspectedTable.getAllColumns()) {
-            final String actualColumnName = column.getActualColumnName();
-            final String javaProperty = column.getJavaProperty();
-            final String jdbcTypeName = column.getJdbcTypeName();
-
-            if (!primaryKeyNames.contains(actualColumnName)) {
-                columnNames.add(actualColumnName);
-                valueFields.add(String.format("#{item.%s,jdbcType=%s}", javaProperty, jdbcTypeName));
-            }
-        }
-
-        // 添加列名
-        insertBatch.addElement(new TextElement(String.format("(%s)", String.join(",", columnNames))));
-        insertBatch.addElement(new TextElement("values"));
-
-        final XmlElement foreach = new XmlElement("foreach");
-        foreach.addAttribute(new Attribute("collection", "collection"));
-        foreach.addAttribute(new Attribute("item", "item"));
-        foreach.addAttribute(new Attribute("separator", ","));
-
-        foreach.addElement(new TextElement(String.format("(%s)", String.join(",", valueFields))));
-
-        insertBatch.addElement(foreach);
-        rootElement.addElement(insertBatch);
-    }
 
     private void sqlMapRemoveByPrimaryKeys(Document document, IntrospectedTable introspectedTable) {
         // removeByPrimaryKeys

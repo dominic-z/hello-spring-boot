@@ -1,15 +1,15 @@
 package codegen.generator.impl;
 
-import codegen.CodeGeneratorManager;
 import codegen.config.CodeGeneratorConfig;
 import codegen.generator.CodeGenerator;
+import codegen.generator.mbg.plugin.bussinesssql.MbgRunningDataCollectorPlugin;
 import codegen.model.TableInfo;
 import codegen.util.FreemarkerUtil;
-import codegen.util.StringUtil;
 import freemarker.template.Configuration;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.api.dom.java.TopLevelClass;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,12 +27,21 @@ public class ServiceGenerator implements CodeGenerator {
         Configuration cfg = FreemarkerUtil.getFreemarkerConfiguration();
 
         Map<String, Object> data = FreemarkerUtil.getDataMapInit(tableInfo);
+        final FullyQualifiedJavaType primaryType =
+                MbgRunningDataCollectorPlugin.getByTableName(tableInfo.getTableName());
+
+        if (primaryType.isExplicitlyImported()) {
+            final String primaryKeyFullyQualifiedName = primaryType.getFullyQualifiedName();
+            data.put("primaryKeyFullyQualifiedName", primaryKeyFullyQualifiedName);
+        }
+        data.put("primaryKeyShortName", primaryType.getShortName());
+
 
         try {
             // 创建 Service 接口
 
             Path serviceJavaPath = Paths.get(CodeGeneratorConfig.PROJECT_PATH, CodeGeneratorConfig.JAVA_PATH,
-                    CodeGeneratorConfig.PACKAGE_PATH_SERVICE,
+                    CodeGeneratorConfig.SERVICE_PACKAGE_PATH,
                     tableInfo.getServiceUpperCamelName() + ".java");
             // 查看父级目录是否存在, 不存在则创建
             if (!Files.exists(serviceJavaPath.getParent())) {

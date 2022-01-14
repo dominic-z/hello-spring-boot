@@ -1,7 +1,7 @@
 package com.example.springboot.hellospringboot.service;
 
-import com.example.springboot.hellospringboot.dao.mybatis.CustomerDao;
-import com.example.springboot.hellospringboot.domain.pojo.mbg.Customer;
+import com.example.springboot.hellospringboot.dao.customized.CustomersDao;
+import com.example.springboot.hellospringboot.domain.pojo.Customers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,13 +22,13 @@ import java.util.List;
 public class MemoryCacheService {
 
     @Autowired
-    private CustomerDao customersDao;
+    private CustomersDao customersDao;
 
 
     @Cacheable(cacheNames = "custormers") // spring 内存注解 在缓存就读缓存 不在缓存就读db然后插入缓存
-    public List<Customer> findCustomers(){
+    public List<Customers> findCustomers(){
 
-        List<Customer> customers = customersDao.selectCustomersRowBounds(1, 1);
+        List<Customers> customers = customersDao.selectCustomersRowBounds(1, 1);
         return customers;
 
     }
@@ -39,9 +39,9 @@ public class MemoryCacheService {
     }
 
     @CachePut(cacheNames = "custormers_put") // spring 内存注解 cacheput是不管在不在，都读db然后设置缓存
-    public List<Customer> findCustomersPut(){
+    public List<Customers> findCustomersPut(){
 
-        List<Customer> customers = customersDao.selectCustomersRowBounds(1, 1);
+        List<Customers> customers = customersDao.selectCustomersRowBounds(1, 1);
         return customers;
 
     }

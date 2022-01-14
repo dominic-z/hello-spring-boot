@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 public class JdbcTemplateConfig {
 
     @Bean("jdbcTemplate")
-    JdbcTemplate yiibaiJdbcTemplate(@Qualifier("datasource") DataSource yiibaiDataSource) {
+    JdbcTemplate yiibaiJdbcTemplate(@Qualifier("yiibaiDatasource") DataSource yiibaiDataSource) {
         return new JdbcTemplate(yiibaiDataSource);
     }
 

@@ -1,16 +1,15 @@
 package ${servicePackage};
 
-import ${mbgDaoPackage}.${modelNameUpperCamel}Mapper;
-import ${daoPackage}.${modelNameUpperCamel}Dao;
-import ${modelPackage}.pojo.${modelNameUpperCamel};
-import ${modelPackage}.query.${modelNameUpperCamel}Query;
-import ${modelPackage}.query.example.${modelNameUpperCamel}Example;
-import com.tencent.tdms.cloud.common.model.JumpingListing;
-import com.tencent.tdms.cloud.util.EntityUtil;
+import ${mbgMapperPackage}.${mapperUpperCamelName};
+import ${customizedDaoPackage}.${daoUpperCamelName};
+import ${modelPackage}.${domainUpperCamelName};
+import ${mgbExamplePackage}.${exampleUpperCamelName};
+<#if primaryKeyFullyQualifiedName??>import ${primaryKeyFullyQualifiedName};</#if>
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -20,123 +19,87 @@ import java.util.Map;
 * @date ${date}
 */
 @Service
-public class ${modelNameUpperCamel}Service{
+public class ${serviceUpperCamelName}{
 
     @Autowired
-    private ${modelNameUpperCamel}Dao ${modelNameLowerCamel}Dao;
+    private ${daoUpperCamelName} ${daoLowerCamelName};
 
     @Autowired
-    private ${modelNameUpperCamel}Mapper ${modelNameLowerCamel}Mapper;
-    
-    // 基于${modelNameLowerCamel}Dao
-    @Transactional(rollbackFor = Exception.class)
-    public boolean create(${modelNameUpperCamel} ${modelNameLowerCamel}) {
-        EntityUtil.onCreate(${modelNameLowerCamel});
+    private ${mapperUpperCamelName} ${mapperLowerCamelName};
 
-        return ${modelNameLowerCamel}Dao.insert(${modelNameLowerCamel});
-    }
+    // 基于${mapperUpperCamelName}
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean update(${modelNameUpperCamel} ${modelNameLowerCamel}) {
-        EntityUtil.onModify(${modelNameLowerCamel});
-
-        return ${modelNameLowerCamel}Dao.update(${modelNameLowerCamel});
+    public int create(${domainUpperCamelName} record) {
+        if (record == null) {
+            return 0;
+        }
+        return ${mapperLowerCamelName}.insert(record);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean update(${modelNameUpperCamel} ${modelNameLowerCamel}, int oldVersion) {
-        EntityUtil.onModify(${modelNameLowerCamel});
-
-        return ${modelNameLowerCamel}Dao.update(${modelNameLowerCamel}, oldVersion);
+    public int createBatch(Collection<${domainUpperCamelName}> records) {
+        if (records == null || records.isEmpty()) {
+            return 0;
+        }
+        return ${mapperLowerCamelName}.insertBatch(records);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean remove(long id) {
-        return ${modelNameLowerCamel}Dao.remove(id);
+    public int deleteByPrimaryKey(${primaryKeyShortName} key) {
+        if (key == null) {
+            return 0;
+        }
+        return ${mapperLowerCamelName}.deleteByPrimaryKey(key);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean remove(List<Long> ids) {
-        return ${modelNameLowerCamel}Dao.remove(ids);
+    public int updateByPrimaryKey(${domainUpperCamelName} record) {
+        if (record == null) {
+            return 0;
+        }
+        return ${mapperLowerCamelName}.updateByPrimaryKey(record);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean delete(long id) {
-        return ${modelNameLowerCamel}Dao.delete(id);
+    public int updateByExampleSelective(${domainUpperCamelName} record, ${exampleUpperCamelName} example) {
+        if (record == null || example == null) {
+            return 0;
+        }
+        return ${mapperLowerCamelName}.updateByExampleSelective(record, example);
     }
 
-    public ${modelNameUpperCamel} get(long id) {
-        return ${modelNameLowerCamel}Dao.findById(id);
+    @Transactional(rollbackFor = Exception.class)
+    public int updateByExample(${domainUpperCamelName} record, ${exampleUpperCamelName} example) {
+        if (record == null || example == null) {
+            return 0;
+        }
+        return ${mapperLowerCamelName}.updateByExample(record, example);
     }
 
-    public Map<Long, ${modelNameUpperCamel}> getMap(Collection<Long> ids) {
-        return EntityUtil.getMap(${modelNameLowerCamel}Dao.findByIds(ids));
-    }
 
-    public List<${modelNameUpperCamel}> getList(Collection<Long> ids) {
-        Map<Long, ${modelNameUpperCamel}> map = getMap(ids);
-        return EntityUtil.getList(ids, map);
-    }
-
-    public JumpingListing<${modelNameUpperCamel}> queryV2(${modelNameUpperCamel}Query query) {
-        int total = ${modelNameLowerCamel}Dao.queryCount(query);
-        if (total == 0) {
-            return new JumpingListing<>();
+    public long countByExample(${exampleUpperCamelName} example) {
+        if (example == null) {
+            return 0L;
         }
 
-        JumpingListing<${modelNameUpperCamel}> listing;
-        if (query.getPage() == 0) {
-            listing = new JumpingListing<>(1, total, total);
-        } else {
-            listing = new JumpingListing<>(query.getPage(), query.getPageSize(), total);
+        return ${mapperLowerCamelName}.countByExample(example);
+    }
+
+    public List<${domainUpperCamelName}> selectByExample(${exampleUpperCamelName} example) {
+        if (example == null) {
+            return new ArrayList<>();
         }
+        return ${mapperLowerCamelName}.selectByExample(example);
+    }
 
-        if (listing.getOffset() >= total) {
-            return new JumpingListing<>();
+    public ${domainUpperCamelName} selectByPrimaryKey(${primaryKeyShortName} key) {
+        if (key == null) {
+            return null;
         }
-
-        List<Long> ids = ${modelNameLowerCamel}Dao.queryIds(query, listing.getOffset(), listing.getPageSize());
-        if (!ids.isEmpty()) {
-            listing.setItems(getList(ids));
-        }
-
-        return listing;
-    }
-                
-    // 基于${modelNameLowerCamel}Mapper
-    @Transactional(rollbackFor = Exception.class)
-    public int createBatch(Collection<${modelNameUpperCamel}> records) {
-        records.forEach(EntityUtil::onCreate);
-        return ${modelNameLowerCamel}Mapper.insertBatch(records);
+        return ${mapperLowerCamelName}.selectByPrimaryKey(key);
     }
 
-    @Transactional(rollbackFor = Exception.class) 
-    public int removeByPrimaryKey(long id) {
-        return ${modelNameLowerCamel}Mapper.removeByPrimaryKey(id);
-    }
+    // 基于${daoLowerCamelName}
 
-    @Transactional(rollbackFor = Exception.class)
-    public int removeByPrimaryKeys(Collection<Long> ids) {
-        return ${modelNameLowerCamel}Mapper.removeByPrimaryKeys(ids);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public int updateByPrimaryKey(${modelNameUpperCamel} record) {
-        EntityUtil.onModify(record);
-
-        return ${modelNameLowerCamel}Mapper.updateByPrimaryKey(record);
-    }
-
-
-    public long countByExample(${modelNameUpperCamel}Example example) { 
-        return ${modelNameLowerCamel}Mapper.countByExample(example);
-    }
-
-    public List<${modelNameUpperCamel}> selectByExample(${modelNameUpperCamel}Example example) {
-        return ${modelNameLowerCamel}Mapper.selectByExample(example);
-    }
-
-    public ${modelNameUpperCamel} selectByPrimaryKey(long id) {
-        return ${modelNameLowerCamel}Mapper.selectByPrimaryKey(id);
-    }
 }
