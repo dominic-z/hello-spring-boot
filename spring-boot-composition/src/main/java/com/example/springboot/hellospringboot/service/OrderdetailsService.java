@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class OrderdetailsService{
         if (record == null) {
             return 0;
         }
-        return orderdetailsMapper.insert(records);
+        return orderdetailsMapper.insert(record);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -46,7 +47,7 @@ public class OrderdetailsService{
 
     @Transactional(rollbackFor = Exception.class)
     public int deleteByPrimaryKey(OrderdetailsKey key) {
-        if (record == null) {
+        if (key == null) {
             return 0;
         }
         return orderdetailsMapper.deleteByPrimaryKey(key);

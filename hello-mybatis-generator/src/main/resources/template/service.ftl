@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class ${serviceUpperCamelName}{
         if (record == null) {
             return 0;
         }
-        return ${mapperLowerCamelName}.insert(records);
+        return ${mapperLowerCamelName}.insert(record);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -46,7 +47,7 @@ public class ${serviceUpperCamelName}{
 
     @Transactional(rollbackFor = Exception.class)
     public int deleteByPrimaryKey(${primaryKeyShortName} key) {
-        if (record == null) {
+        if (key == null) {
             return 0;
         }
         return ${mapperLowerCamelName}.deleteByPrimaryKey(key);

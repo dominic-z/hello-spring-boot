@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "spring.jdbc.datasource.druid.yiibaidb-properties")
 @Data
-public class MysqlProperties {
+public class MysqlYiibaiProperties {
     private String url;
     private String driverClassName;
     private String username;

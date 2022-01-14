@@ -41,4 +41,16 @@
   <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
   </select>
   -->
+  <select id="selectCustomersRowBounds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from customers
+  </select>
+
+  <select id="selectByCustomerNumber" parameterType="int" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from customers
+    where customerNumber = #{customerNumber}
+  </select>
 </mapper>

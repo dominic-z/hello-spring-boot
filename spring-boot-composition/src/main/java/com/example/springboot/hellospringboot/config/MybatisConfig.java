@@ -4,19 +4,14 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.mybatis.spring.annotation.MapperScannerRegistrar;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author dominiczhu
@@ -27,11 +22,11 @@ import java.util.Arrays;
 @Configuration
 // 扫描mapper，当然也可以配置在mybatis-config.xml里
 // 不过也可以手动构造 如下
-@MapperScan(basePackages = {"com.example.springboot.hellospringboot.dao.mybatis.mbg"})
+@MapperScan(basePackages = {"com.example.springboot.hellospringboot.dao.mbg"},sqlSessionTemplateRef = "yiibaiSqlSessionTemplate")
 public class MybatisConfig {
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("datasource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory yiibaiSqlSessionFactory(@Qualifier("yiibaiDatasource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 
         factoryBean.setDataSource(dataSource);
@@ -45,12 +40,12 @@ public class MybatisConfig {
     }
 
     @Bean
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+    public SqlSessionTemplate yiibaiSqlSessionTemplate(@Qualifier("yiibaiSqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
     @Bean
-    public DataSourceTransactionManager transactionManager(@Qualifier("datasource") DataSource dataSource) {
+    public DataSourceTransactionManager yiibaiTransactionManager(@Qualifier("yiibaiDatasource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 

@@ -2,6 +2,7 @@ package com.example.springboot.hellospringboot.dao.customized;
 
 import com.example.springboot.hellospringboot.domain.pojo.Orderdetails;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -33,6 +34,7 @@ public class OrderdetailsDao {
     private static final String TABLE = "com.example.springboot.hellospringboot.dao.customized.OrderdetailsDao";
 
     @Autowired
+    @Qualifier("yiibaiSqlSessionTemplate")
     private SqlSessionTemplate sqlSessionTemplate;
 
 }
