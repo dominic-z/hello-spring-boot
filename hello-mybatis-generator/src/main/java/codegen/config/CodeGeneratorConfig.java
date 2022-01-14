@@ -21,7 +21,7 @@ public class CodeGeneratorConfig {
     public static String JAVA_PATH = "hello-mybatis-generator/target/out/src/main/java";
     // 资源文件路径
     public static String RESOURCES_PATH = "hello-mybatis-generator/target/out/src/main/resources";
-    public static String SQL_MAPPER_XML_ROOT_PATH = RESOURCES_PATH + "/sqlmap";
+    public static String SQL_MAPPER_XML_ROOT_PATH = RESOURCES_PATH + "/mappers";
 
     // 包的父目录
     public static String BASE_PACKAGE;

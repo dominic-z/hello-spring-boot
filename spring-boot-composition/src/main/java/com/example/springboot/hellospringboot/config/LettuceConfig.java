@@ -15,6 +15,8 @@ import org.springframework.data.redis.connection.lettuce.LettucePoolingClientCon
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
+import java.util.List;
+
 /**
  * @author dominiczhu
  * @version 1.0
@@ -34,7 +36,7 @@ public class LettuceConfig {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
         // 2.0后的写法
         configuration.setHostName(redisProperties.getHost());
-        configuration.setPassword(RedisPassword.of(redisProperties.getPassword()));
+//        configuration.setPassword(RedisPassword.of(redisProperties.getPassword()));
         configuration.setPort(redisProperties.getPort());
         configuration.setDatabase(0);
         LettuceConnectionFactory factory = new LettuceConnectionFactory(configuration);
@@ -50,6 +52,7 @@ public class LettuceConfig {
     public StringRedisTemplate stringRedisTemplate() {
         StringRedisTemplate redisTemplate = new StringRedisTemplate();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
+
         return redisTemplate;
     }
 
