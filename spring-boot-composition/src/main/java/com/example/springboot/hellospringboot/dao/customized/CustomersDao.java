@@ -1,6 +1,6 @@
-package ${customizedDaoPackage};
+package com.example.springboot.hellospringboot.dao.customized;
 
-import ${modelPackage}.${domainUpperCamelName};
+import com.example.springboot.hellospringboot.domain.pojo.Customers;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Map;
 /**
 * DAO for customized sql defined in  customized/mapper.xml
 * for example
-* public List<${domainUpperCamelName}> findByIds(Collection<Long> ids) {
+* public List<Customers> findByIds(Collection<Long> ids) {
 *       if (ids.isEmpty()) {
 *       return new ArrayList<>();
 *       }
@@ -24,13 +24,13 @@ import java.util.Map;
 *       return sqlSessionTemplate.selectList(TABLE + ".select_by_ids", params);
 *  }
 *
-* @author ${author}
-* @date ${date}
+* @author codegen
+* @date 2022/01/14
 */
 @Component
-public class ${daoUpperCamelName} {
+public class CustomersDao {
 
-    private static final String TABLE = "${customizedDaoPackage}.${daoUpperCamelName}";
+    private static final String TABLE = "com.example.springboot.hellospringboot.dao.customized.CustomersDao";
 
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;

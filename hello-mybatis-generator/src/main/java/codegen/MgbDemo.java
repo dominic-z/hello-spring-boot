@@ -1,10 +1,14 @@
 package codegen;
 
+import org.apache.commons.io.FileUtils;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.internal.DefaultShellCallback;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +28,12 @@ public class MgbDemo {
     }
 
     private static void useMGB() throws Exception {
+        final Path outPath = Paths.get(System.getProperty("user.dir"), "hello-mybatis-generator", "target", "out");
+        if (Files.exists(outPath)) {
+            FileUtils.deleteDirectory(outPath.toFile());
+        }
+        Files.createDirectories(outPath);
+
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
         ConfigurationParser cp = new ConfigurationParser(warnings);

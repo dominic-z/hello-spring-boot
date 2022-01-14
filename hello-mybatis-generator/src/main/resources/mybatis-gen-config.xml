@@ -5,39 +5,33 @@
     <context id="dsql" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
-<!--        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
 <!--        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>-->
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
         <plugin type="codegen.generator.mbg.plugin.MysqlLimitPlugin"/>
-        <plugin type="codegen.generator.mbg.plugin.CloseSelectivePlugin"/>
-        <plugin type="codegen.generator.mbg.plugin.DeletedFieldPlugin"/>
-        <plugin type="codegen.generator.mbg.plugin.CustomizedSqlPlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.bussinesssql.CloseSelectivePlugin"/>
+        <plugin type="codegen.generator.mbg.plugin.bussinesssql.InsertBatchSqlPlugin"/>
         <plugin type="codegen.generator.mbg.plugin.CommentPlugin"/>
 
 
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/yiibaidb" userId="root" password="root"/>
 
         <javaModelGenerator targetPackage="com.example.springboot.hellospringboot.domain.pojo.mbg"
-                            targetProject="hello-mybatis-generator/target/">
+                            targetProject="hello-mybatis-generator/target/out">
             <property name="exampleTargetPackage"
                       value="com.example.springboot.hellospringboot.domain.pojo.mbg.example"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="resources.mappers.mbg"
-                         targetProject="hello-mybatis-generator/target/"/>
+                         targetProject="hello-mybatis-generator/target/out"/>
 
         <javaClientGenerator type="XMLMAPPER"
                              targetPackage="com.example.springboot.hellospringboot.dao.mybatis.mbg"
-                             targetProject="hello-mybatis-generator/target/"/>
+                             targetProject="hello-mybatis-generator/target/out"/>
 
-        <table tableName="items">
-            <property name="useActualColumnNames" value="false"/>
-            <domainObjectRenamingRule searchString="s$" replaceString=""/>
-        </table>
-        <table tableName="customers" mapperName="CustomersMapper">
-            <property name="useActualColumnNames" value="true"/>
-            <domainObjectRenamingRule searchString="s$" replaceString=""/>
+        <table tableName="auto_dashboard">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>
 </generatorConfiguration>

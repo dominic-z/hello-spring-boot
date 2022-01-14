@@ -17,7 +17,7 @@ import java.util.Map;
  * Dao层 代码生成
  */
 @Slf4j
-public class DaoGenerator implements CodeGenerator {
+public class CustomizedDaoGenerator implements CodeGenerator {
 
     @Override
     public boolean genCode(TableInfo tableInfo) {
@@ -28,7 +28,7 @@ public class DaoGenerator implements CodeGenerator {
         try {
             // 创建 Service 接口
             final Path servicePath = Paths.get(CodeGeneratorConfig.PROJECT_PATH, CodeGeneratorConfig.JAVA_PATH,
-                    CodeGeneratorConfig.PACKAGE_PATH_DAO,
+                    CodeGeneratorConfig.CUSTOMIZED_DAO_PACKAGE_PATH,
                     tableInfo.getDaoUpperCamelName() + ".java");
 
             // 查看父级目录是否存在, 不存在则创建

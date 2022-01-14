@@ -1,4 +1,4 @@
-package codegen.generator.mbg.plugin;
+package codegen.generator.mbg.plugin.bussinesssql;
 
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
@@ -43,8 +43,4 @@ public class CloseSelectivePlugin extends PluginAdapter {
         return false;
     }
 
-    @Override
-    public boolean clientGenerated(Interface interfaze, IntrospectedTable introspectedTable) {
-        return false;
-    }
 }
