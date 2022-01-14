@@ -42,9 +42,4 @@ public class CloseSelectivePlugin extends PluginAdapter {
                                                                      IntrospectedTable introspectedTable) {
         return false;
     }
-
-    @Override
-    public boolean clientGenerated(Interface interfaze, IntrospectedTable introspectedTable) {
-        return false;
-    }
 }
