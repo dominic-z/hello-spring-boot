@@ -4,12 +4,9 @@ import com.example.springboot.hellospringboot.dao.customized.CustomersDao;
 import com.example.springboot.hellospringboot.dao.jdbc.template.ItemJdbcDao;
 import com.example.springboot.hellospringboot.dao.mbg.CustomersMapper;
 import com.example.springboot.hellospringboot.domain.pojo.Customers;
-import com.example.springboot.hellospringboot.domain.pojo.Orderdetails;
-import com.example.springboot.hellospringboot.domain.pojo.OrderdetailsKey;
 import com.example.springboot.hellospringboot.domain.query.example.CustomersExample;
 import com.example.springboot.hellospringboot.service.HelloService;
 import com.example.springboot.hellospringboot.service.MemoryCacheService;
-import com.example.springboot.hellospringboot.service.OrderdetailsService;
 import com.example.springboot.hellospringboot.service.RedisCacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
@@ -160,16 +157,4 @@ class HelloSpringBootApplicationTests {
     }
 
 
-    @Autowired
-    private OrderdetailsService orderdetailsService;
-
-    @Test
-    public void testMgbFreemarkerV2() {
-
-        final OrderdetailsKey key = new OrderdetailsKey();
-        key.setOrdernumber(10100);
-        key.setProductcode("S18_2248");
-        final Orderdetails orderdetails = orderdetailsService.selectByPrimaryKey(key);
-        log.info("orderdetails: selectByPrimaryKey {}", orderdetails);
-    }
 }

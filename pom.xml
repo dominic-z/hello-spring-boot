@@ -25,11 +25,15 @@
 
 	<dependencies>
 
+<!--		<dependency>-->
+<!--			<groupId>junit</groupId>-->
+<!--			<artifactId>junit</artifactId>-->
+<!--			<version>4.13</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13</version>
-			<scope>test</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -69,6 +73,8 @@
 				<artifactId>druid-spring-boot-starter</artifactId>
 				<version>1.1.24</version>
 			</dependency>
+
+
 
 		</dependencies>
 	</dependencyManagement>
