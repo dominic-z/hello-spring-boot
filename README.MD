@@ -6,14 +6,12 @@ Spring的使用案例
 这个是最重要的东西
 
 ## mysql
+docker pull mysql
+docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -p 3306:3306 -d mysql
 
-# 坑
-## spring
-报错：原本我的spring项目是一个无子module的项目，直接运行没问题，但是当我新建了一个子module之后，spring容器启动就会失败
-推测是因为原本只有一个项目，pom里都是dependency，导致新的子项目也引入了一坨spring依赖，spring启动配置可能失败，因为有可能会扫描到其他子模块的配置路径里
-所以SpringApplication应当再一个独立的自module之中，而不能再父项目之中，并且父项目也应该使用dependencyManagement
-
-## mybatis
-使用xml里配置mapper package失效，在config里使用mapperScan注解，或者使用MapperScannerConfigurer就能成功；
+## redis
+docker pull redis:6.2.5
+docker run -p 6379:6379 --name redis -d redis
+redis-cli -h some-redis-ip -p some-port
 
 
