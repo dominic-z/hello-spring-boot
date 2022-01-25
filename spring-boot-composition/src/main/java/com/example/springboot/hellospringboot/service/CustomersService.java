@@ -15,17 +15,37 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @author codegen
-* @date 2022/01/14
-*/
+ * @author codegen
+ * @date 2022/01/14
+ */
 @Service
-public class CustomersService{
+public class CustomersService {
 
     @Autowired
     private CustomersDao customersDao;
 
     @Autowired
     private CustomersMapper customersMapper;
+
+    public int testTransaction() throws Exception {
+        return createTwo();
+    }
+
+    // 内部调用事务失效，猜测，本service并不是接口实现类，但内部调用的时候仍然事务不生效
+    // 猜测是在外部调用createTwo的地方做了字节码aop，而并不是在本类的基础上做aop
+    @Transactional(rollbackFor = Exception.class)
+    public int createTwo() {
+        final Customers customer496 = customersMapper.selectByPrimaryKey(496);
+        customer496.setCustomernumber(498);
+        create(customer496);
+        int i = 0;
+        if (i == 0) {
+            throw new RuntimeException("抛出异常 尝试回滚");
+        }
+        customer496.setCustomernumber(499);
+        create(customer496);
+        return 2;
+    }
 
     // 基于CustomersMapper
 

@@ -27,15 +27,18 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(path = "/web/validate")
-@Validated
+// 如果加上了这个注解，参数异常的代码会直接抛出异常，否则会仍然进入到方法里。可以从bindingResult获取异常信息
+//@Validated
 public class ValidateController {
+
+    private static final String LOG_MARK = "[ValidateController]";
 
     @RequestMapping(value = "/validateReq", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ValidateResp validateReq(@RequestBody @Valid ValidateReq req, BindingResult bindingResult) {
 
-        log.info("{}", req);
+        log.info("{} req {} {}", LOG_MARK, req, bindingResult);
         if (bindingResult != null && bindingResult.hasErrors()) {
-            log.error("errors: {}", bindingResult.getAllErrors());
+            log.error("{} errors: {}", LOG_MARK, bindingResult.getAllErrors());
             // 返回 校验校验错误提示信息
         }
         final ValidateResp resp = new ValidateResp();
