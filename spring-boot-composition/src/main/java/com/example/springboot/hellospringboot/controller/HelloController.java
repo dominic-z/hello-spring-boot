@@ -34,4 +34,13 @@ public class HelloController {
         return resp;
     }
 
+    @RequestMapping(path = "/putHelloWorld", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public HelloResponse putHelloWorld(@RequestBody HelloRequest helloReq) {
+        HelloResponse resp = new HelloResponse();
+        log.info("hello Req is {}", helloReq.toString());
+        helloService.sayHello();
+        resp.setContent(helloReq.getContent());
+        return resp;
+    }
+
 }
