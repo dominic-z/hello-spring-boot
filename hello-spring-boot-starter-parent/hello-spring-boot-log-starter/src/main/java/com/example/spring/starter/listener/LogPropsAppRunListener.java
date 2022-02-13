@@ -1,4 +1,4 @@
-package com.example.spring.starter.listener.run;
+package com.example.spring.starter.listener;
 
 import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
