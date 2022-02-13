@@ -25,11 +25,10 @@ public class LogbackConfigListener implements ApplicationListener<ApplicationEnv
 
             final String config = "logback-spring.xml";
 
-//            final URI uri = this.getClass().getClassLoader().getResource(config).toURI();
-
             JoranConfigurator configurator = new JoranConfigurator();
             configurator.setContext(lc);
             lc.reset();
+            // 读取本jar包下的文件
             ClassPathResource resource = new ClassPathResource(config);
             configurator.doConfigure(resource.getInputStream());
         } catch (Exception e) {

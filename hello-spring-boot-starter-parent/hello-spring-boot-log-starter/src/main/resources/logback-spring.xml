@@ -20,7 +20,7 @@
             <totalSizeCap>10GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
-            <pattern>123123%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level] %logger{50} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level] %logger{50} - %msg%n</pattern>
         </encoder>
         　　　
     </appender>
@@ -29,11 +29,11 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>error</level>
         </filter>
-        <file>${log.dir}/rolling-error.log</file>
+        <file>${log.dir:-./logs}/rolling-error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--  该appender的拆分规则，首先每个文件不能超过maxFileSize大小，总大小不能超过totalSizeCap-->
             <!--  如果超过了，首先判断时间是否一致，时间一致，则新文件对%i进行递增，时间不一致，则新文件对时间递增，且%i重置为0-->
-            <fileNamePattern>${APP_PATH}/rolling-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${log.dir:-./logs}/rolling-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!--  该appender的每个日志总大小不超过1000字节-->
             <maxFileSize>1GB</maxFileSize>
             <maxHistory>30</maxHistory>
@@ -50,7 +50,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--  该appender的拆分规则，首先每个文件不能超过maxFileSize大小，总大小不能超过totalSizeCap-->
             <!--  如果超过了，首先判断时间是否一致，时间一致，则新文件对%i进行递增，时间不一致，则新文件对时间递增，且%i重置为0-->
-            <fileNamePattern>${APP_PATH}/druid-sql.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${log.dir:-./logs}/druid-sql.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!--  该appender的每个日志总大小不超过1000字节-->
             <maxFileSize>1GB</maxFileSize>
             <maxHistory>30</maxHistory>
@@ -65,6 +65,11 @@
 
     <appender name="MYBATIS" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.dir}/mybatis.log</file>
+        <!--        需要在内部filter，不能在logger上通过设置level来控制mybatis的日志级别，经测试mybatis并不会遵照logger的level配置-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!--            默认配置的写法-->
+            <level>${hello.starter.log.mybatis.level:-DEBUG}</level>
+        </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--  该appender的拆分规则，首先每个文件不能超过maxFileSize大小，总大小不能超过totalSizeCap-->
             <!--  如果超过了，首先判断时间是否一致，时间一致，则新文件对%i进行递增，时间不一致，则新文件对时间递增，且%i重置为0-->
@@ -83,7 +88,7 @@
 
     <!--    配合mybatis的logPrefix使用-->
     <!--    还是这种方式清晰明确-->
-    <logger name="mybatis" level="${mybatis.log.level:DEBUG}"  additivity="false">
+    <logger name="mybatis" level="DEBUG" additivity="false">
         <appender-ref ref="MYBATIS"/>
         <appender-ref ref="STDOUT"/>
     </logger>
