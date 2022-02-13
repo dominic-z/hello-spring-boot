@@ -26,4 +26,11 @@ public class DaoTest {
         customersService.testTransaction();
     }
 
+
+    @Test
+    public void testSimpleSql(){
+        log.debug("1232");
+        customersService.selectByPrimaryKey(119);
+    }
+
 }

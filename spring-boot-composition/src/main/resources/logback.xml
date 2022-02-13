@@ -12,9 +12,6 @@
     </appender>
 
     <appender name="ROLLING_ROOT_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>info</level>
-        </filter>
         <file>${LOG_DIR}/rolling-root.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--  该appender的拆分规则，首先每个文件不能超过maxFileSize大小，总大小不能超过totalSizeCap-->
@@ -55,6 +52,13 @@
 
 
     <logger name="console" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+<!--    配合mybatis的logPrefix使用-->
+<!--    还是这种方式清晰明确-->
+    <logger name="mybatis" level="DEBUG"  additivity="false">
+        <appender-ref ref="ROLLING_ROOT_FILE"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 
