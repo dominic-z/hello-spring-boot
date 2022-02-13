@@ -1,2 +1,0 @@
-
-org.springframework.context.ApplicationListener=com.tencent.tdms.cloud.core.log.TdmsLogInitializer
