@@ -26,7 +26,6 @@ public class HelloSpringBootApplication implements CommandLineRunner {
 //		items.stream().limit(20).forEach(item -> log.info(item.toString()));
 //		log.error("test e",new RuntimeException("error test"));
 
-
-
+		log.error("test log back error",new RuntimeException());
 	}
 }
