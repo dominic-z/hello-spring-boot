@@ -16,9 +16,8 @@
 
         <dependency>
             <groupId>org.example</groupId>
-            <artifactId>hello-spring-boot-log-starter</artifactId>
+            <artifactId>hello-spring-boot-starter-log-config</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-
         </dependency>
 
         <dependency>

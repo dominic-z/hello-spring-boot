@@ -12,5 +12,7 @@ import org.slf4j.LoggerFactory;
 public class Loggers {
 
     public static final Logger SQL_LOG = LoggerFactory.getLogger("druid_sql");
+    public static final Logger ROOT_LOG = LoggerFactory.getLogger("root");
     public static final Logger ERROR_LOG = LoggerFactory.getLogger("error");
+    public static final Logger SERVER_LOG = LoggerFactory.getLogger("server");
 }
