@@ -1,4 +1,4 @@
-package com.example.spring.starter.listener;
+package org.example.spring.starter.log.listener;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;

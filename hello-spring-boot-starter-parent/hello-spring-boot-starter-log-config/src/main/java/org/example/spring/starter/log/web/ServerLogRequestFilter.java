@@ -1,7 +1,7 @@
-package com.example.spring.starter.web;
+package org.example.spring.starter.log.web;
 
-import com.example.spring.starter.Loggers;
-import com.example.spring.starter.utils.JacksonUtil;
+import org.example.spring.starter.log.Loggers;
+import org.example.spring.starter.log.utils.JacksonUtil;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;

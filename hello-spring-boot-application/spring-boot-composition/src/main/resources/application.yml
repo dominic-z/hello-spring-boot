@@ -12,8 +12,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: beans,trace # 可以通过http://localhost/actuator/beans查看bean
+        include: beans,trace,health # 可以通过http://localhost/actuator/beans查看bean
 spring:
+  application:
+    name: spring-boot-composition
   jdbc:
     datasource:
       druid:
@@ -27,5 +29,32 @@ spring:
       host: 127.0.0.1
       port: 6379
       password: admin
+  ####consul注册中心地址
+  cloud:
+    #### nacos注册中心地址
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      ## 使用spring loadbalancer，弃用ribbon  不写这个会报错 还会用ribbon
+      loadbalancer:
+        ribbon:
+          enabled: false
+#    consul:
+#      host: localhost
+#      port: 8500
+#      discovery:
+#        #hostname: 127.0.0.1
+#        service-name: ${spring.application.name}
+#        register: true
+#        deregister: true
+#        prefer-ip-address: true
+#        health-check-path: /web/health/health
+#        health-check-interval: 10s
+#        health-check-critical-timeout: 7200s
+
+## 使用spring loadbalancer，弃用ribbon  不写这个会报错 还会用ribbon
+ribbon:
+  nacos:
+    enabled: false
 
 hello-world: Hello World!

@@ -1,4 +1,4 @@
-package com.example.spring.starter.message;
+package org.example.spring.starter.log.message;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

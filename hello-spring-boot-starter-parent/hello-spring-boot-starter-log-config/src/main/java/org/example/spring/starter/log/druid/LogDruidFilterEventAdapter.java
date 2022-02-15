@@ -1,8 +1,8 @@
-package com.example.spring.starter.druid;
+package org.example.spring.starter.log.druid;
 
 import com.alibaba.druid.filter.FilterEventAdapter;
 import com.alibaba.druid.proxy.jdbc.StatementProxy;
-import com.example.spring.starter.Loggers;
+import org.example.spring.starter.log.Loggers;
 
 /**
  * @author dominiczhu

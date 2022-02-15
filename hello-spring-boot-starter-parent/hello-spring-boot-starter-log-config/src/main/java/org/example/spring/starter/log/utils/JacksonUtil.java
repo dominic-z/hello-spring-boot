@@ -1,4 +1,4 @@
-package com.example.spring.starter.utils;
+package org.example.spring.starter.log.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

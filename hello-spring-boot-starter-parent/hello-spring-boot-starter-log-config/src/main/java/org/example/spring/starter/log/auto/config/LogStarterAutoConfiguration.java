@@ -1,7 +1,7 @@
-package com.example.spring.starter.auto.config;
+package org.example.spring.starter.log.auto.config;
 
-import com.example.spring.starter.druid.LogDruidFilterEventAdapter;
-import com.example.spring.starter.web.ServerLogRequestFilter;
+import org.example.spring.starter.log.druid.LogDruidFilterEventAdapter;
+import org.example.spring.starter.log.web.ServerLogRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

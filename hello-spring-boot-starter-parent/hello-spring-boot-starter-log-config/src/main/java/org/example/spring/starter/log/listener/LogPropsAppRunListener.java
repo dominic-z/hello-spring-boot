@@ -1,12 +1,11 @@
-package com.example.spring.starter.listener;
+package org.example.spring.starter.log.listener;
 
-import com.example.spring.starter.Loggers;
+import org.example.spring.starter.log.Loggers;
 import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringApplicationRunListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.FileInputStream;
 import java.net.URL;

@@ -6,10 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 // @SpringBootApplication(exclude={DataSourceAutoConfiguration.class}) 如果没有手动配置datasource，那么就需要关闭数据源自动配置
 @Slf4j
+@EnableFeignClients
+@EnableDiscoveryClient
 public class HelloSpringBootApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.example.spring.starter;
+package org.example.spring.starter.log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,4 +15,5 @@ public class Loggers {
     public static final Logger ROOT_LOG = LoggerFactory.getLogger("root");
     public static final Logger ERROR_LOG = LoggerFactory.getLogger("error");
     public static final Logger SERVER_LOG = LoggerFactory.getLogger("server");
+    public static final Logger CLIENT_LOG = LoggerFactory.getLogger("client");
 }

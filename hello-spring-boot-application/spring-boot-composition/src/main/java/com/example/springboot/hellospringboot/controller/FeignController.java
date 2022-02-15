@@ -1,8 +1,8 @@
 package com.example.springboot.hellospringboot.controller;
 
+import com.example.springboot.hellospringboot.client.HelloFeignClient;
 import com.example.springboot.hellospringboot.domain.messages.HelloRequest;
 import com.example.springboot.hellospringboot.domain.messages.HelloResponse;
-import com.example.springboot.hellospringboot.service.HelloService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,45 +16,26 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author dominiczhu
  * @version 1.0
- * @title HelloController
- * @date 2021/9/14 下午8:20
+ * @title FeignController
+ * @date 2022/2/15 1:36 下午
  */
 @RestController()
-@RequestMapping(path = "/web/hello")
+@RequestMapping(path = "/web/feign")
 @Slf4j
-public class HelloController {
+public class FeignController {
 
     @Autowired
-    private HelloService helloService;
+    private HelloFeignClient helloFeignClient;
 
     @ResponseBody
     @RequestMapping(path = "/getHelloWorld", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public HelloResponse getHelloWorld(@RequestParam("content") String content) {
-        HelloResponse resp = new HelloResponse();
-        log.info("content is {}", content);
-        helloService.sayHello();
-        resp.setContent(content);
-        return resp;
+        return helloFeignClient.getHelloWorld(content);
     }
 
     @ResponseBody
     @RequestMapping(path = "/postHelloWorld", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public HelloResponse postHelloWorld(@RequestBody HelloRequest helloReq) {
-        HelloResponse resp = new HelloResponse();
-        log.info("hello Req is {}", helloReq.toString());
-        helloService.sayHello();
-        resp.setContent(helloReq.getContent());
-        return resp;
+        return helloFeignClient.postHelloWorld(helloReq);
     }
-
-    @ResponseBody
-    @RequestMapping(path = "/putHelloWorld", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public HelloResponse putHelloWorld(@RequestBody HelloRequest helloReq) {
-        HelloResponse resp = new HelloResponse();
-        log.info("hello Req is {}", helloReq.toString());
-        helloService.sayHello();
-        resp.setContent(helloReq.getContent());
-        return resp;
-    }
-
 }

@@ -10,6 +10,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>hello-spring-boot-starter-log-config</module>
+        <module>hello-spring-boot-starter-feign-client</module>
     </modules>
 
     <parent>
@@ -50,6 +51,11 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>hello-spring-boot-starter-log-config</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
         </dependencies>
 
 
