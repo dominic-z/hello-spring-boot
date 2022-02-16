@@ -29,7 +29,7 @@ public class LogStarterAutoConfiguration {
 
     @Bean
     public FilterRegistrationBean<ServerLogRequestFilter> filterRegistrationBean(@Autowired ServerLogRequestFilter serverLogRequestFilter) {
-        FilterRegistrationBean<ServerLogRequestFilter> registration = new FilterRegistrationBean();
+        FilterRegistrationBean<ServerLogRequestFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(serverLogRequestFilter);
         registration.addUrlPatterns("/*");
         registration.setName("serviceLogRequestFilter");

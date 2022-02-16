@@ -46,6 +46,7 @@ public class ClientAutoConfiguration {
 
     private okhttp3.OkHttpClient okHttpClient;
 
+    //    作为架子，当主类挂上了@EnableAutoConfiguration的时候，会自动生成这几个对象
     @Bean
     public ConnectionPool httpClientConnectionPool(FeignHttpClientProperties httpClientProperties,
                                                    OkHttpClientConnectionPoolFactory connectionPoolFactory) {
@@ -55,6 +56,7 @@ public class ClientAutoConfiguration {
         return connectionPoolFactory.create(maxTotalConnections, timeToLive, ttlUnit);
     }
 
+    //    作为架子，当主类挂上了@EnableAutoConfiguration的时候，会自动生成这几个对象
     @Bean
     public okhttp3.OkHttpClient client(OkHttpClientFactory httpClientFactory,
                                        ConnectionPool connectionPool,

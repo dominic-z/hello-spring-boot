@@ -15,7 +15,8 @@ import org.springframework.core.io.ClassPathResource;
  * @title LogbackConfigListener
  * @date 2022/2/13 4:50 下午
  */
-@Order(Ordered.HIGHEST_PRECEDENCE)
+// 一定要最后加载，否则如果app项目里也有一份logback文件，那么此配置会被覆盖掉
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class LogbackConfigListener implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
     @Override
     public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
